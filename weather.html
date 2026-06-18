@@ -3,31 +3,95 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Zhuhai Weather</title>
+  <title>Greater Bay Area Weather</title>
+
   <style>
-    html,
-    body {
+    html, body {
       margin: 0;
       padding: 0;
       width: 100%;
-      min-height: 100%;
+      height: 100%;
       background: transparent;
-      font-family: "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: "Noto Sans SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
     }
 
-    .weather-wrap {
+    .wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 10px;
+      box-sizing: border-box;
+
       width: 100%;
+      min-height: 100vh;
+    }
+
+    .weather-item {
+      width: 100%;
+      flex: 1;
       min-height: 120px;
-      overflow: hidden;
+    }
+
+    /* 让 widget 自适应填满 */
+    .weather-item a.weatherwidget-io {
+      width: 100% !important;
     }
   </style>
 </head>
+
 <body>
-  <div class="weather-wrap">
-    <a class="weatherwidget-io" href="https://forecast7.com/zh/22d27113d58/zhuhai/" data-label_1="ZHUHAI" data-label_2="WEATHER" data-font="Noto Sans SC" data-theme="weather_one">ZHUHAI WEATHER</a>
+  <div class="wrap">
+
+    <!-- 珠海 -->
+    <div class="weather-item">
+      <a class="weatherwidget-io"
+         href="https://forecast7.com/zh/22d27113d58/zhuhai/"
+         data-label_1="珠海"
+         data-label_2="WEATHER"
+         data-font="Noto Sans SC"
+         data-theme="weather_one">
+        ZHUHAI WEATHER
+      </a>
+    </div>
+
+    <!-- 澳门 -->
+    <div class="weather-item">
+      <a class="weatherwidget-io"
+         href="https://forecast7.com/zh/22d20113d54/macau/"
+         data-label_1="澳门"
+         data-label_2="WEATHER"
+         data-font="Microsoft Yahei"
+         data-theme="weather_one">
+        MACAU WEATHER
+      </a>
+    </div>
+
+    <!-- 香港 -->
+    <div class="weather-item">
+      <a class="weatherwidget-io"
+         href="https://forecast7.com/zh/22d28114d16/hong-kong-island/"
+         data-label_1="香港"
+         data-label_2="WEATHER"
+         data-font="Microsoft Yahei"
+         data-theme="weather_one">
+        HONG KONG WEATHER
+      </a>
+    </div>
+
   </div>
+
+  <!-- ⚠️ 只加载一次脚本（关键优化点） -->
   <script>
-    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+    !function(d,s,id){
+      var js,fjs=d.getElementsByTagName(s)[0];
+      if(!d.getElementById(id)){
+        js=d.createElement(s);
+        js.id=id;
+        js.src='https://weatherwidget.io/js/widget.min.js';
+        fjs.parentNode.insertBefore(js,fjs);
+      }
+    }(document,'script','weatherwidget-io-js');
   </script>
+
 </body>
 </html>
