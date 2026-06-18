@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Greater Bay Area Weather</title>
+  <title>Greater Bay Weather</title>
 
   <style>
     html, body {
@@ -12,37 +12,43 @@
       width: 100%;
       height: 100%;
       background: transparent;
-      font-family: "Noto Sans SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+      overflow: hidden;
+      font-family: "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
     }
 
+    /* 三等分全屏 */
     .wrap {
+      position: fixed;
+      inset: 0;
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      padding: 10px;
-      box-sizing: border-box;
-
-      width: 100%;
-      min-height: 100vh;
     }
 
     .weather-item {
-      width: 100%;
       flex: 1;
-      min-height: 120px;
+      width: 100%;
+      display: flex;
     }
 
-    /* 让 widget 自适应填满 */
+    /* 关键：强制 widget 撑满 */
     .weather-item a.weatherwidget-io {
       width: 100% !important;
+      height: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    /* 去掉 widget 内部可能的圆角/留白（尽力） */
+    iframe {
+      border: 0 !important;
     }
   </style>
 </head>
 
 <body>
+
   <div class="wrap">
 
-    <!-- 珠海 -->
     <div class="weather-item">
       <a class="weatherwidget-io"
          href="https://forecast7.com/zh/22d27113d58/zhuhai/"
@@ -54,7 +60,6 @@
       </a>
     </div>
 
-    <!-- 澳门 -->
     <div class="weather-item">
       <a class="weatherwidget-io"
          href="https://forecast7.com/zh/22d20113d54/macau/"
@@ -66,7 +71,6 @@
       </a>
     </div>
 
-    <!-- 香港 -->
     <div class="weather-item">
       <a class="weatherwidget-io"
          href="https://forecast7.com/zh/22d28114d16/hong-kong-island/"
@@ -80,7 +84,6 @@
 
   </div>
 
-  <!-- ⚠️ 只加载一次脚本（关键优化点） -->
   <script>
     !function(d,s,id){
       var js,fjs=d.getElementsByTagName(s)[0];
