@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zhuhai Weather</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      background: transparent;
+      font-family: "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .weather-wrap {
+      width: 100%;
+      min-height: 120px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div class="weather-wrap">
+    <a class="weatherwidget-io" href="https://forecast7.com/zh/22d27113d58/zhuhai/" data-label_1="ZHUHAI" data-label_2="WEATHER" data-font="Noto Sans SC" data-theme="weather_one">ZHUHAI WEATHER</a>
+  </div>
+  <script>
+    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+  </script>
+</body>
+</html>
