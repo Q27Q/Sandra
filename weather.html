@@ -3,52 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GBA Weather</title>
+<title>GBA 7-Day Weather</title>
 
 <style>
-  body{
-    margin:0;
-    font-family: -apple-system, BlinkMacSystemFont, "Microsoft YaHei";
-    background:#f5f6f8;
-  }
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Microsoft YaHei";
+  background:#f5f6f8;
+}
 
-  .wrap{
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-  }
+.wrap{
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+}
 
-  .card{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    padding:24px;
-    background:white;
-    border-bottom:1px solid #eee;
-  }
+/* 每个城市一整块 */
+.city{
+  flex:1;
+  background:white;
+  border-bottom:1px solid #eee;
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+}
 
-  .city{
-    font-size:14px;
-    color:#888;
-  }
+.title{
+  font-size:14px;
+  color:#888;
+  margin-bottom:8px;
+}
 
-  .row{
-    display:flex;
-    align-items:baseline;
-    gap:12px;
-    margin-top:8px;
-  }
+/* 7天横向滚动 */
+.days{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  flex:1;
+  align-items:center;
+}
 
-  .temp{
-    font-size:44px;
-    font-weight:600;
-  }
+.day{
+  min-width:80px;
+  background:#f7f8fa;
+  border-radius:12px;
+  padding:10px;
+  text-align:center;
+  flex-shrink:0;
+}
 
-  .desc{
-    font-size:14px;
-    color:#666;
-  }
+.temp{
+  font-size:18px;
+  font-weight:600;
+}
+
+.desc{
+  font-size:12px;
+  color:#666;
+  margin-top:4px;
+}
 </style>
 </head>
 
@@ -56,52 +69,75 @@
 
 <div class="wrap">
 
-  <div class="card">
-    <div class="city">ZHuhai</div>
-    <div class="row">
-      <div class="temp" id="zhuhai-t">--</div>
-      <div class="desc" id="zhuhai-d">loading...</div>
-    </div>
+  <div class="city">
+    <div class="title">Zhuhai</div>
+    <div class="days" id="zhuhai"></div>
   </div>
 
-  <div class="card">
-    <div class="city">Macau</div>
-    <div class="row">
-      <div class="temp" id="macau-t">--</div>
-      <div class="desc" id="macau-d">loading...</div>
-    </div>
+  <div class="city">
+    <div class="title">Macau</div>
+    <div class="days" id="macau"></div>
   </div>
 
-  <div class="card">
-    <div class="city">Hong Kong</div>
-    <div class="row">
-      <div class="temp" id="hk-t">--</div>
-      <div class="desc" id="hk-d">loading...</div>
-    </div>
+  <div class="city">
+    <div class="title">Hong Kong</div>
+    <div class="days" id="hongkong"></div>
   </div>
 
 </div>
 
 <script>
 
-const API_KEY = "9381b37d869a7913f4b6c36e7cb742c9";
-
-async function load(city, tId, dId){
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric&lang=zh_cn`;
-
-  const res = await fetch(url);
-  const data = await res.json();
-
-  document.getElementById(tId).innerText =
-    Math.round(data.main.temp) + "°";
-
-  document.getElementById(dId).innerText =
-    data.weather[0].description;
+function getWeather(lat, lon){
+  return fetch(
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto`
+  ).then(r => r.json());
 }
 
-load("Zhuhai", "zhuhai-t", "zhuhai-d");
-load("Macau", "macau-t", "macau-d");
-load("Hong Kong", "hk-t", "hk-d");
+/* 简单天气图标 */
+function icon(code){
+  if(code===0) return "☀️";
+  if(code<=3) return "🌤";
+  if(code<=48) return "☁️";
+  if(code<=67) return "🌧";
+  if(code<=77) return "🌨";
+  return "⛈";
+}
+
+function render(elId, data){
+
+  const el = document.getElementById(elId);
+
+  const days = data.daily.time;
+
+  for(let i=0;i<7;i++){
+
+    const div = document.createElement("div");
+    div.className = "day";
+
+    div.innerHTML = `
+      <div>${days[i].slice(5)}</div>
+      <div class="temp">${Math.round(data.daily.temperature_2m_max[i])}°</div>
+      <div class="desc">${icon(data.daily.weathercode[i])}</div>
+    `;
+
+    el.appendChild(div);
+  }
+}
+
+async function load(){
+
+  const zh = await getWeather(22.27,113.57);
+  render("zhuhai", zh);
+
+  const ma = await getWeather(22.20,113.54);
+  render("macau", ma);
+
+  const hk = await getWeather(22.32,114.17);
+  render("hongkong", hk);
+}
+
+load();
 
 </script>
 
