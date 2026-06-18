@@ -1,100 +1,76 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Greater Bay Weather</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Greater Bay Weather Widget</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: "#f6f7fb",
+            card: "#ffffff",
+            text: "#111827",
+            sub: "#6b7280"
+          }
+        }
+      }
+    }
+  </script>
 
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      background: transparent;
-      overflow: hidden;
-      font-family: "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+    html,body{
+      margin:0;
+      padding:0;
+      background:#f6f7fb;
+      font-family: Inter, "Microsoft YaHei", sans-serif;
     }
 
-    /* 三等分全屏 */
-    .wrap {
-      position: fixed;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .weather-item {
-      flex: 1;
-      width: 100%;
-      display: flex;
-    }
-
-    /* 关键：强制 widget 撑满 */
-    .weather-item a.weatherwidget-io {
-      width: 100% !important;
-      height: 100% !important;
-      margin: 0 !important;
-      padding: 0 !important;
-    }
-
-    /* 去掉 widget 内部可能的圆角/留白（尽力） */
-    iframe {
-      border: 0 !important;
+    .glass {
+      backdrop-filter: blur(10px);
     }
   </style>
 </head>
 
 <body>
 
-  <div class="wrap">
+<div class="min-h-screen flex flex-col gap-4 p-4">
 
-    <div class="weather-item">
-      <a class="weatherwidget-io"
-         href="https://forecast7.com/zh/22d27113d58/zhuhai/"
-         data-label_1="珠海"
-         data-label_2="WEATHER"
-         data-font="Noto Sans SC"
-         data-theme="weather_one">
-        ZHUHAI WEATHER
-      </a>
-    </div>
+  <!-- 珠海 -->
+  <a href="https://forecast7.com/zh/22d27113d58/zhuhai/"
+     class="bg-white rounded-xl shadow-sm hover:shadow-md transition p-4 flex flex-col gap-1">
 
-    <div class="weather-item">
-      <a class="weatherwidget-io"
-         href="https://forecast7.com/zh/22d20113d54/macau/"
-         data-label_1="澳门"
-         data-label_2="WEATHER"
-         data-font="Microsoft Yahei"
-         data-theme="weather_one">
-        MACAU WEATHER
-      </a>
-    </div>
+    <div class="text-sm text-gray-500">ZHUHAI</div>
+    <div class="text-lg font-semibold text-gray-900">珠海天气</div>
+    <div class="text-xs text-gray-400">Greater Bay Area</div>
 
-    <div class="weather-item">
-      <a class="weatherwidget-io"
-         href="https://forecast7.com/zh/22d28114d16/hong-kong-island/"
-         data-label_1="香港"
-         data-label_2="WEATHER"
-         data-font="Microsoft Yahei"
-         data-theme="weather_one">
-        HONG KONG WEATHER
-      </a>
-    </div>
+  </a>
 
-  </div>
+  <!-- 澳门 -->
+  <a href="https://forecast7.com/zh/22d20113d54/macau/"
+     class="bg-white rounded-xl shadow-sm hover:shadow-md transition p-4 flex flex-col gap-1">
 
-  <script>
-    !function(d,s,id){
-      var js,fjs=d.getElementsByTagName(s)[0];
-      if(!d.getElementById(id)){
-        js=d.createElement(s);
-        js.id=id;
-        js.src='https://weatherwidget.io/js/widget.min.js';
-        fjs.parentNode.insertBefore(js,fjs);
-      }
-    }(document,'script','weatherwidget-io-js');
-  </script>
+    <div class="text-sm text-gray-500">MACAU</div>
+    <div class="text-lg font-semibold text-gray-900">澳门天气</div>
+    <div class="text-xs text-gray-400">Greater Bay Area</div>
+
+  </a>
+
+  <!-- 香港 -->
+  <a href="https://forecast7.com/zh/22d28114d16/hong-kong-island/"
+     class="bg-white rounded-xl shadow-sm hover:shadow-md transition p-4 flex flex-col gap-1">
+
+    <div class="text-sm text-gray-500">HONG KONG</div>
+    <div class="text-lg font-semibold text-gray-900">香港天气</div>
+    <div class="text-xs text-gray-400">Greater Bay Area</div>
+
+  </a>
+
+</div>
 
 </body>
 </html>
